@@ -2,6 +2,7 @@ defmodule KosuWeb.UserControllerTest do
   use KosuWeb.ConnCase, async: true
 
   import Kosu.Factory
+  import KosuWeb.MacroHelpers
 
   alias Kosu.Account.User
 
@@ -53,6 +54,8 @@ defmodule KosuWeb.UserControllerTest do
   describe "update" do
     setup [:create_user]
 
+    ensure_authentication(:put, "/api/users/1")
+
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
       params = params_for(:user)
 
@@ -78,6 +81,8 @@ defmodule KosuWeb.UserControllerTest do
 
   describe "delete" do
     setup [:create_user]
+
+    ensure_authentication(:delete, "/api/users/1")
 
     test "deletes chosen user", %{conn: conn, user: user} do
       conn =
