@@ -1,20 +1,10 @@
 defmodule KosuWeb.UserControllerTest do
-  use KosuWeb.ConnCase
+  use KosuWeb.ConnCase, async: true
 
   import Kosu.Factory
 
   alias Kosu.Account.User
 
-  @create_attrs %{
-    email: "some email",
-    name: "some name",
-    password: "some password"
-  }
-  @update_attrs %{
-    email: "some updated email",
-    name: "some updated name",
-    password: "some updated password"
-  }
   @invalid_attrs %{email: nil, name: nil, password: nil}
 
   setup %{conn: conn} do
@@ -42,9 +32,9 @@ defmodule KosuWeb.UserControllerTest do
 
   describe "create" do
     test "renders user when data is valid", %{conn: conn} do
-      params = @create_attrs
+      params = params_for(:user)
 
-      conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
+      conn = post(conn, Routes.user_path(conn, :create), user: params)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.user_path(conn, :show, id))
@@ -64,17 +54,16 @@ defmodule KosuWeb.UserControllerTest do
     setup [:create_user]
 
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
-      conn = put(conn, Routes.user_path(conn, :update, user), user: @update_attrs)
+      params = params_for(:user)
+
+      conn = put(conn, Routes.user_path(conn, :update, user), user: params)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.user_path(conn, :show, id))
 
-      assert %{
-               "id" => ^id,
-               "email" => "some updated email",
-               "name" => "some updated name",
-               "password" => "some updated password"
-             } = json_response(conn, 200)["data"]
+      assert subject = json_response(conn, 200)["data"]
+      assert subject["id"] == id
+      assert subject["name"] == params.name
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do

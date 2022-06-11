@@ -14,7 +14,6 @@ defmodule KosuWeb.UserView do
     %{
       id: user.id,
       name: user.name,
-      password: user.password,
       email: user.email
     }
   end

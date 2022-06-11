@@ -1,5 +1,5 @@
 defmodule Kosu.AccountTest do
-  use Kosu.DataCase
+  use Kosu.DataCase, async: true
 
   import Kosu.Factory
 
@@ -26,7 +26,6 @@ defmodule Kosu.AccountTest do
       assert {:ok, %User{} = user} = Account.create_user(valid_attrs)
       assert user.email == valid_attrs.email
       assert user.name == valid_attrs.name
-      assert user.password == valid_attrs.password
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -35,17 +34,12 @@ defmodule Kosu.AccountTest do
 
     test "update_user/2 with valid data updates the user" do
       user = insert(:user)
-
-      update_attrs = %{
-        email: "some updated email",
-        name: "some updated name",
-        password: "some updated password"
-      }
+      update_attrs = params_for(:user, %{password: "somepassword"})
 
       assert {:ok, %User{} = user} = Account.update_user(user, update_attrs)
-      assert user.email == "some updated email"
-      assert user.name == "some updated name"
-      assert user.password == "some updated password"
+      assert user.email == update_attrs.email
+      assert user.name == update_attrs.name
+      assert user.password =~ "$2b$"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
