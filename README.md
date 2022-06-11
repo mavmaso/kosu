@@ -1,19 +1,36 @@
 # Kosu
+ 
 
-To start your Phoenix server:
+## Deps for Linux
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+- `sudo apt update`
+- `sudo apt upgrade`
+- `sudo apt install -y build-essential libssl-dev zlib1g-dev automake autoconf libncurses5-dev`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## In loco Setup
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+- Install dependencies with `mix deps.get`
+- Create and migrate your database with `mix ecto.setup`
+- Start Phoenix endpoint with `mix phx.server`
+- Run complete tests `mix test`
 
-## Learn more
+## Docker
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+
+## Database
+  PostgreSQL
+  ```
+  username: postgres
+  password: postgres
+  ```
+
+## Using
+
+ You can use postman, or a similar app, to send json to this API.The endpoint and the item's list are below.
+
+### Endpoint
+
+
+## Made by
+
+ - [mavmaso](https://github.com/mavmaso)
