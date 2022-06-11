@@ -23,6 +23,7 @@ defmodule KosuWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import KosuWeb.ConnCase
+      import Kosu.Helpers
 
       alias KosuWeb.Router.Helpers, as: Routes
 

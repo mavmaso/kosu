@@ -5,10 +5,22 @@ defmodule KosuWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug Kosu.Plug.Authenticate
+  end
+
   scope "/api", KosuWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit, :update, :delete]
+
+    post "/login", SessionController, :create
+  end
+
+  scope "/api", KosuWeb do
+    pipe_through [:api, :auth]
+
+    resources "/users", UserController, only: [:update, :delete]
   end
 
   # Enables the Swoosh mailbox preview in development.

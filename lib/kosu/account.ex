@@ -48,6 +48,33 @@ defmodule Kosu.Account do
     end
   end
 
+  defp get_user_by_email(email) do
+    case Repo.get_by(User, email: email) do
+      nil ->
+        Bcrypt.no_user_verify()
+        {:error, :invalid_login}
+
+      user ->
+        {:ok, user}
+    end
+  end
+
+  @doc """
+  WIP
+  """
+  @spec authenticate_user(String.t(), String.t()) :: {:ok, User.t()} | {:error, :invalid_login}
+  def authenticate_user(email, password) do
+    with {:ok, user} <- get_user_by_email(email), do: verify_password(password, user)
+  end
+
+  defp verify_password(password, %User{} = user) do
+    if Bcrypt.verify_pass(password, user.password) do
+      {:ok, user}
+    else
+      {:error, :invalid_login}
+    end
+  end
+
   @doc """
   Creates a user.
 

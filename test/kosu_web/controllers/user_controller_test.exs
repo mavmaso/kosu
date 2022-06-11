@@ -56,10 +56,10 @@ defmodule KosuWeb.UserControllerTest do
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
       params = params_for(:user)
 
-      conn = put(conn, Routes.user_path(conn, :update, user), user: params)
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-      conn = get(conn, Routes.user_path(conn, :show, id))
+      conn =
+        conn
+        |> login(user)
+        |> put(Routes.user_path(conn, :update, user), user: params)
 
       assert subject = json_response(conn, 200)["data"]
       assert subject["id"] == id
@@ -67,7 +67,11 @@ defmodule KosuWeb.UserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = put(conn, Routes.user_path(conn, :update, user), user: @invalid_attrs)
+      conn =
+        conn
+        |> login(user)
+        |> put(Routes.user_path(conn, :update, user), user: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -76,7 +80,11 @@ defmodule KosuWeb.UserControllerTest do
     setup [:create_user]
 
     test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete(conn, Routes.user_path(conn, :delete, user))
+      conn =
+        conn
+        |> login(user)
+        |> delete(Routes.user_path(conn, :delete, user))
+
       assert response(conn, 204)
     end
   end

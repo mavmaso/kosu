@@ -16,7 +16,7 @@ defmodule Kosu.Account.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, @required)
-    |> validate_required( @required)
+    |> validate_required(@required)
     |> unique_constraint(:email)
     |> put_password()
   end
