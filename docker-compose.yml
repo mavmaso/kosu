@@ -1,0 +1,28 @@
+version: "3.7"
+
+services: 
+  back:
+    build: .
+    container_name: kosu
+    depends_on:
+      - db
+    restart: always
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres/kosu_prod
+      # - SECRET_KEY_BASE=AQUI
+      # - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+    ports:
+      - 4000:4000
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kosu_prod
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes: 
+  db_data:
