@@ -8,8 +8,9 @@ services:
       - db
     restart: always
     environment:
-      - DATABASE_URL=postgres://postgres@postgres/kosu_prod
-      # - SECRET_KEY_BASE=AQUI
+      - DATABASE_URL=ecto://postgres:postgres@db/kosu_prod
+      - SECRET_KEY_BASE=pBCaiHqIoZVjuuCtvAbd1MjZH1iBBDa61qYMFsM9fnWe5ejtbTQGSDkgga12LRL/
+      - PHX_SERVER=true
       # - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
     ports:
       - 4000:4000
