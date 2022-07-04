@@ -25,4 +25,15 @@ defmodule KosuWeb.KanaControllerTest do
       assert json_response(conn, 404)["errors"]["detail"] == "Not Found"
     end
   end
+
+  describe "index" do
+    test "returns ok when data is valid", %{conn: conn} do
+      kana = insert(:kana)
+
+      conn = get(conn, "/api/kanas")
+
+      assert [subject] = json_response(conn, 200)["data"]
+      assert subject["id"] == kana.id
+    end
+  end
 end

@@ -10,4 +10,6 @@ defmodule KosuWeb.KanaController do
       render(conn, "show.json", %{kana: kana})
     end
   end
+
+  def index(conn, _), do: render(conn, "index.json", %{kanas: Content.list_kanas})
 end
