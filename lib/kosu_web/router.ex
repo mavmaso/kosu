@@ -15,6 +15,7 @@ defmodule KosuWeb.Router do
     resources "/users", UserController, except: [:new, :edit, :update, :delete]
 
     post "/login", SessionController, :create
+    resources "/kanas", KanaController, only: [:show]
   end
 
   scope "/api", KosuWeb do
